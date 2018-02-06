@@ -1,59 +1,158 @@
-title <- function(collection = NULL) {
+#' Sample a koan
+#'
+#' @param collection a \code{data.frame}, the koan collection to sample from.
+#'   Default is \code{NULL}, which randomly selects a collection to pick from.
+#' @param case the case number. Default is \code{NULL}, which randomly selects a
+#'   case.
+#'
+#' @return Prints a koan (or part of it) and invisibly returns either a \code{tbl}
+#'   containing the text (\code{koan()}) or a character vector.
+#' @export
+#'
+#' @examples
+#' koan(gateless_gate, 1)
+#'
+#' @rdname koan
+#' @name Sample a koan
+koan <- function(collection = NULL, case = NULL) {
   if (!is.null(collection)) {
     .df <- collection
+    collection_name <- unique(.df$collection)
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
     .df <- collect_koans()
+    collection_name <- sample(unique(.df$collection), 1)
   }
 
-  # randomly select koan
+  if (!is.null(case)) {
+    case_num <- case
+  } else {
+    case_num <- dplyr::filter(.df, collection == collection_name) %>%
+      dplyr::pull(case) %>%
+      unique() %>%
+      sample(1)
+  }
 
+  collection_df <- dplyr::filter(.df, collection == collection_name)
+
+  cat("Collection:", collection_name, "\n\n")
+  title(collection = collection_df, case = case_num)
+  cat("\n\n")
+  main_case(collection = collection_df, case = case_num)
+  cat("\n\n")
+  comment <- commentary(collection = collection_df, case = case_num)
+  if (!purrr::is_empty(comment)) cat("\n\n")
+  capping_verse(collection = collection_df, case = case_num)
 }
 
-main_case <- function(collection = NULL) {
+#' @export
+#' @rdname koan
+title <- function(collection = NULL, case = NULL) {
   if (!is.null(collection)) {
     .df <- collection
+    collection_name <- unique(.df$collection)
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
     .df <- collect_koans()
+    collection_name <- sample(unique(.df$collection), 1)
   }
 
-  # randomly select koan
+  if (!is.null(case)) {
+    case_num <- case
+  } else {
+    case_num <- dplyr::filter(.df, collection == collection_name) %>%
+      dplyr::pull(case) %>%
+      unique() %>%
+      sample(1)
+  }
+  title <- .df %>%
+    dplyr::filter(collection == collection_name, type == "title", case == case_num) %>%
+    dplyr::pull(text)
 
+  cat(paste0("Case #", case_num, ": ", title))
+  invisible(title)
 }
 
-commentary <- function(collection = NULL) {
+#' @export
+#' @rdname koan
+main_case <- function(collection = NULL, case = NULL) {
   if (!is.null(collection)) {
     .df <- collection
+    collection_name <- unique(.df$collection)
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
     .df <- collect_koans()
+    collection_name <- sample(unique(.df$collection), 1)
   }
 
-  # randomly select koan
+  if (!is.null(case)) {
+    case_num <- case
+  } else {
+    case_num <- dplyr::filter(.df, collection == collection_name) %>%
+      dplyr::pull(case) %>%
+      unique() %>%
+      sample(1)
+  }
+  main_case <- .df %>%
+    dplyr::filter(collection == collection_name, type == "main_case", case == case_num) %>%
+    dplyr::pull(text)
 
+  cat(paste0("Main Case: ", main_case))
+  invisible(main_case)
 }
 
-capping_verse <- function(collection = NULL) {
+#' @export
+#' @rdname koan
+commentary <- function(collection = NULL, case = NULL)  {
   if (!is.null(collection)) {
     .df <- collection
+    collection_name <- unique(.df$collection)
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
-    .df <- koan_collections
+    .df <- collect_koans()
+    collection_name <- sample(unique(.df$collection), 1)
   }
 
-  # randomly select koan
+  if (!is.null(case)) {
+    case_num <- case
+  } else {
+    case_num <- dplyr::filter(.df, collection == collection_name) %>%
+      dplyr::pull(case) %>%
+      unique() %>%
+      sample(1)
+  }
+  commentary <- .df %>%
+    dplyr::filter(collection == collection_name, type == "commentary", case == case_num) %>%
+    dplyr::pull(text)
 
+  if (!purrr::is_empty(commentary)) cat(paste0("Commentary: ", commentary))
+  invisible(commentary)
 }
 
-koan <- function(collection = NULL) {
- if (!is.null(collection)) {
-   .df <- collection
-   if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
- } else {
-   .df <- koan_collections
- }
+#' @export
+#' @rdname koan
+capping_verse <- function(collection = NULL, case = NULL)  {
+  if (!is.null(collection)) {
+    .df <- collection
+    collection_name <- unique(.df$collection)
+    if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
+  } else {
+    .df <- collect_koans()
+    collection_name <- sample(unique(.df$collection), 1)
+  }
 
-  # randomly select koan
+  if (!is.null(case)) {
+    case_num <- case
+  } else {
+    case_num <- dplyr::filter(.df, collection == collection_name) %>%
+      dplyr::pull(case) %>%
+      unique() %>%
+      sample(1)
+  }
+  capping_verse <- .df %>%
+    dplyr::filter(collection == collection_name, type == "capping_verse", case == case_num) %>%
+    dplyr::pull(text)
 
+  if (!purrr::is_empty(capping_verse)) cat(paste0("Capping Verse: ", capping_verse))
+  invisible(capping_verse)
 }
