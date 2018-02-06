@@ -3,7 +3,7 @@ title <- function(collection = NULL) {
     .df <- collection
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
-    .df <- koan_collections
+    .df <- collect_koans()
   }
 
   # randomly select koan
@@ -15,7 +15,7 @@ main_case <- function(collection = NULL) {
     .df <- collection
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
-    .df <- koan_collections
+    .df <- collect_koans()
   }
 
   # randomly select koan
@@ -27,7 +27,7 @@ commentary <- function(collection = NULL) {
     .df <- collection
     if (!is.data.frame(.df)) stop("`collection` must be of class data.frame")
   } else {
-    .df <- koan_collections
+    .df <- collect_koans()
   }
 
   # randomly select koan

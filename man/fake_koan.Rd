@@ -19,13 +19,16 @@ fake_commentary(n_lines = sample(1:20, 1))
 
 fake_capping_verse(n_lines = sample(3:6, 1))
 }
+\arguments{
+\item{n_lines}{The amount of lines to create. Default randomly samples a
+number.}
+}
 \value{
 Prints a koan (or part of it) and invisibly returns a \code{tbl}
   containing the text.
 }
 \description{
-#' @param n_lines The amount of lines to create. Default randomly samples a
-number.
+Generate fake koans using a Markov model
 }
 \examples{
 fake_koan()

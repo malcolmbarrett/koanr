@@ -16,4 +16,5 @@ Imports:
     pdftools,
     purrr,
     stringr,
-    markovifyR
+    markovifyR,
+    tidyr

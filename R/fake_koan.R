@@ -2,7 +2,7 @@
 
 #' Generate fake koans using a Markov model
 #'
-#' #' @param n_lines The amount of lines to create. Default randomly samples a
+#' @param n_lines The amount of lines to create. Default randomly samples a
 #' number.
 #'
 #' @return Prints a koan (or part of it) and invisibly returns a \code{tbl}
@@ -21,7 +21,21 @@ fake_koan <- function() {
   commentary <- fake_commentary()
   cat("\n\nCapping verse: \n")
   capping_verse <- fake_capping_verse()
-  #  format and spit out invisible tibble
+
+  koan_df <- tibble::tibble(
+    title = title$title,
+    main_case = paste(main_case$main_case, collapse = " "),
+    commentary = paste(commentary$commentary, collapse = " "),
+    capping_verse = paste(capping_verse$capping_verse, collapse = " ")
+  ) %>%
+    tidyr::separate(title, c("case", "title"), sep = "\\: ", extra = "merge") %>%
+    tidyr::separate(case, c("ditch", "case"), sep = "#", extra = "merge") %>%
+    dplyr::mutate(case = as.integer(case)) %>%
+    dplyr::select(-ditch) %>%
+    tidyr::gather(key = type,
+                  value = text,
+                  title, main_case, commentary, capping_verse)
+  invisible(koan_df)
 }
 
 #' @export
