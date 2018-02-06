@@ -3,8 +3,7 @@ library(stringr)
 library(purrr)
 library(dplyr)
 
-download.file("http://www.thezensite.com/ZenTeachings/KoanStudies/Shoyoroku.pdf", "Shoyoroku.pdf", mode = "wb")
-boe_txt <- pdf_text("Shoyoroku.pdf")
+boe_txt <- pdf_text("http://www.thezensite.com/ZenTeachings/KoanStudies/Shoyoroku.pdf")
 
 boe_cases <- boe_txt[5:27] %>%
   str_split("\\n[:digit:]") %>%
@@ -38,8 +37,7 @@ book_of_equanimity$title <- book_of_equanimity$title %>%
   str_replace_all("_", "") %>%
   str_trim()
 book_of_equanimity$main_case <- book_of_equanimity$main_case %>%
-  str_replace_all("[0-9]{1,2}(?![0-9])", "") %>%
-  str_replace("5", "500") %>%
+  str_replace_all("(?<!\\d)(([0-7]{1}[0-9]{0,1})|8{1}[0-6]{0,1})(?!\\d)", "") %>%
   str_trim()
 
 book_of_equanimity <- book_of_equanimity %>%
@@ -200,9 +198,34 @@ bcr_cases <- bcr_txt[5:31] %>%
 blue_cliff_record <- bcr_cases %>% map_df(function(.x) {
   title <- .x[1]
   main_case <- .x[-1] %>% str_trim()
-  commentary_index <- str_detect(main_case, "Setchô said")
+  if (any(str_detect(main_case, "\\(Setchô comments, 'Wrong!'\\) Mayoku"))) {
+    main_case <- main_case %>%
+      str_replace("\\) M", ")@ M") %>%
+      str_split("@") %>%
+      unlist() %>%
+      str_trim()
+  }
+  commentary_index <- str_detect(main_case, "Setchô")
+  end_parenthesis <- str_detect(main_case[commentary_index], "\\)")
+  if (is_empty(end_parenthesis)) end_parenthesis <- FALSE
+  if (!any(end_parenthesis)) {
+  commentary_index <- map(which(commentary_index), function(.comment){
+      end_line <- str_detect(main_case[.comment:length(main_case)], "\\)") %>%
+        which() %>%
+        pluck(1)
+      .comment:(.comment + end_line - 1)
+    }) %>% unlist()
+  total_index <- seq_len(length(main_case))
+  not_commentary_index <- which(!(total_index %in% commentary_index))
+  } else {
+    commentary_index <- which(commentary_index)
+    not_commentary_index <- which(!commentary_index)
+  }
+  # if (any(commentary_index)) browser()
+  # if (is_empty(end_parenthesis)) end_parenthesis <- FALSE
+  # if (!end_parenthesis) commentary_index[(which(commentary_index) + 1)] <- TRUE
   commentary <-  paste(main_case[commentary_index], collapse = " \n ")
-  main_case <- paste(main_case[!commentary_index], collapse = " ")
+  main_case <- paste(main_case[not_commentary_index], collapse = " ")
   tibble(collection = "Blue Cliff Record", title, main_case, commentary) %>%
     tidyr::separate(title, c("case", "title"), sep = "\\: ", extra = "merge")
 })
@@ -218,9 +241,15 @@ blue_cliff_record$title <- blue_cliff_record$title %>%
   str_replace_all("_", "") %>%
   str_replace_all("[0-9]{1,2}(?![0-9])", "") %>%
   str_trim()
+
 blue_cliff_record$main_case <- blue_cliff_record$main_case %>%
-  str_replace_all("[0-9]{1,2}(?![0-9])", "") %>%
-  str_replace("5", "500") %>%
+  str_replace_all("(?<!\\d)(([0-7]{1}[0-9]{0,1})|8{1}[0-6]{0,1})(?!\\d)", "") %>%
+  str_replace_all(" \\.", ".") %>%
+  str_replace_all(" \\?", "?") %>%
+  str_trim()
+
+blue_cliff_record$commentary <- blue_cliff_record$commentary %>%
+  str_replace_all("(?<!\\d)(([0-7]{1}[0-9]{0,1})|8{1}[0-6]{0,1})(?!\\d)", "") %>%
   str_trim()
 
 blue_cliff_record <- blue_cliff_record %>%
@@ -228,3 +257,9 @@ blue_cliff_record <- blue_cliff_record %>%
   mutate(case = as.integer(case)) %>%
   filter(text != "") %>%
   arrange(case)
+
+
+usethis::use_data(blue_cliff_record, overwrite = TRUE)
+usethis::use_data(book_of_equanimity, overwrite = TRUE)
+usethis::use_data(gateless_gate, overwrite = TRUE)
+usethis::use_data(record_of_light, overwrite = TRUE)

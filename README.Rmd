@@ -1,0 +1,26 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# koanr
+
+`koanr` is (mostly) a data package containing the text for several of the more important Zen koan texts: The Gateless Gate, The Blue Cliff Record, The Record of the Transmission of the Light, and The Book of Equanimity. `koanr` also includes functions for sampling (real) koans and generating (fake) koans.
+
+
+## Example
+
+```{r example, results='asis'}
+library(koanr)
+fake_koan()
+```
+
