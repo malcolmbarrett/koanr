@@ -4,7 +4,7 @@
 \name{record_of_light}
 \alias{record_of_light}
 \title{Record of the Transmission of the Light}
-\format{A data frame with four variables: \code{collection}, \code{case},
+\format{A \code{tbl} with four variables: \code{collection}, \code{case},
   \code{type}, and \code{text}. \code{collection} is the title of the text,
   "Record of the Transmission of the Light". \code{case} indicates the koan
   case number. \code{type} indicates the text type, one of: "title", the

@@ -3,23 +3,23 @@
 \docType{data}
 \name{blue_cliff_record}
 \alias{blue_cliff_record}
-\title{Record of the Transmission of the Light}
-\format{A data frame with four variables: \code{collection}, \code{case},
+\title{The Blue Cliff Record}
+\format{A \code{tbl} with four variables: \code{collection}, \code{case},
   \code{type}, and \code{text}. \code{collection} is the title of the text,
-  "Record of the Transmission of the Light". \code{case} indicates the koan
-  case number. \code{type} indicates the text type, one of: "title", the
-  title of the case, "main_case", the main case of the koan, "commentary",
-  commentary on the koan by Keizan Zenji, or "capping_verse", a short verse
-  by Keizan Zenji summarizing the essence of the koan.}
+  "Blue Cliff Record". \code{case} indicates the koan case number.
+  \code{type} indicates the text type, one of: "title", the title of the
+  case, "main_case", the main case of the koan, or "commentary", commentary
+  on the koan by Setcho.}
 \source{
-https://shastaabbey.org/publications/
+http://4x13.net/buddhism/koan_bluecliff.pdf
 }
 \usage{
 blue_cliff_record
 }
 \description{
-A koan collection written in 1300 by Zen Master Keizan Jokin that describes
-the enlightenment experience of of the Buddha and the 53 ancestors that led
-to Keizan Zenki's school of Zen.
+A koan collection written in 1125 and compiled by by Zen Master Yuanwu Keqin
+that includes the 100 Verses on Old Cases, a compilation of 100 koans
+collected by Xuedou Chongxian (Setcho), whose commentary appear ocassionally
+throughout.
 }
 \keyword{datasets}
