@@ -9,15 +9,15 @@
 \alias{capping_verse}
 \title{Sample a koan}
 \usage{
-koan(collection = NULL, case = NULL)
+koan(collection = NULL, case = NULL, verbose = TRUE)
 
-title(collection = NULL, case = NULL)
+title(collection = NULL, case = NULL, verbose = TRUE)
 
-main_case(collection = NULL, case = NULL)
+main_case(collection = NULL, case = NULL, verbose = TRUE)
 
-commentary(collection = NULL, case = NULL)
+commentary(collection = NULL, case = NULL, verbose = TRUE)
 
-capping_verse(collection = NULL, case = NULL)
+capping_verse(collection = NULL, case = NULL, verbose = TRUE)
 }
 \arguments{
 \item{collection}{a \code{data.frame}, the koan collection to sample from.
@@ -25,9 +25,11 @@ Default is \code{NULL}, which randomly selects a collection to pick from.}
 
 \item{case}{the case number. Default is \code{NULL}, which randomly selects a
 case.}
+
+\item{verbose}{logical. Should koan be printed to console?}
 }
 \value{
-Prints a koan (or part of it) and invisibly returns either a \code{tbl}
+verboses a koan (or part of it) and invisibly returns either a \code{tbl}
   containing the text (\code{koan()}) or a character vector.
 }
 \description{

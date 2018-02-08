@@ -4,8 +4,9 @@
 #'   Default is \code{NULL}, which randomly selects a collection to pick from.
 #' @param case the case number. Default is \code{NULL}, which randomly selects a
 #'   case.
+#' @param verbose logical. Should koan be printed to console?
 #'
-#' @return Prints a koan (or part of it) and invisibly returns either a \code{tbl}
+#' @return verboses a koan (or part of it) and invisibly returns either a \code{tbl}
 #'   containing the text (\code{koan()}) or a character vector.
 #' @export
 #'
@@ -14,7 +15,7 @@
 #'
 #' @rdname koan
 #' @name Sample a koan
-koan <- function(collection = NULL, case = NULL) {
+koan <- function(collection = NULL, case = NULL, verbose = TRUE) {
   if (!is.null(collection)) {
     .df <- collection
     collection_name <- unique(.df$collection)
@@ -35,19 +36,19 @@ koan <- function(collection = NULL, case = NULL) {
 
   collection_df <- dplyr::filter(.df, collection == collection_name)
 
-  cat("Collection:", collection_name, "\n\n")
-  title(collection = collection_df, case = case_num)
-  cat("\n\n")
-  main_case(collection = collection_df, case = case_num)
-  cat("\n\n")
-  comment <- commentary(collection = collection_df, case = case_num)
+  if (verbose) cat("Collection:", collection_name, "\n\n")
+  title(collection = collection_df, case = case_num, verbose = verbose)
+  if (verbose) cat("\n\n")
+  main_case(collection = collection_df, case = case_num, verbose = verbose)
+  if (verbose) cat("\n\n")
+  comment <- commentary(collection = collection_df, case = case_num, verbose = verbose)
   if (!purrr::is_empty(comment)) cat("\n\n")
-  capping_verse(collection = collection_df, case = case_num)
+  capping_verse(collection = collection_df, case = case_num, verbose = verbose)
 }
 
 #' @export
 #' @rdname koan
-title <- function(collection = NULL, case = NULL) {
+title <- function(collection = NULL, case = NULL, verbose = TRUE) {
   if (!is.null(collection)) {
     .df <- collection
     collection_name <- unique(.df$collection)
@@ -69,13 +70,13 @@ title <- function(collection = NULL, case = NULL) {
     dplyr::filter(collection == collection_name, type == "title", case == case_num) %>%
     dplyr::pull(text)
 
-  cat(paste0("Case #", case_num, ": ", title))
+  if (verbose) cat(paste0("Case #", case_num, ": ", title))
   invisible(title)
 }
 
 #' @export
 #' @rdname koan
-main_case <- function(collection = NULL, case = NULL) {
+main_case <- function(collection = NULL, case = NULL, verbose = TRUE) {
   if (!is.null(collection)) {
     .df <- collection
     collection_name <- unique(.df$collection)
@@ -97,13 +98,13 @@ main_case <- function(collection = NULL, case = NULL) {
     dplyr::filter(collection == collection_name, type == "main_case", case == case_num) %>%
     dplyr::pull(text)
 
-  cat(paste0("Main Case: ", main_case))
+  if (verbose) cat(paste0("Main Case: ", main_case))
   invisible(main_case)
 }
 
 #' @export
 #' @rdname koan
-commentary <- function(collection = NULL, case = NULL)  {
+commentary <- function(collection = NULL, case = NULL, verbose = TRUE)  {
   if (!is.null(collection)) {
     .df <- collection
     collection_name <- unique(.df$collection)
@@ -125,13 +126,15 @@ commentary <- function(collection = NULL, case = NULL)  {
     dplyr::filter(collection == collection_name, type == "commentary", case == case_num) %>%
     dplyr::pull(text)
 
-  if (!purrr::is_empty(commentary)) cat(paste0("Commentary: ", commentary))
+  if (!purrr::is_empty(commentary)) {
+    if (verbose) cat(paste0("Commentary: ", commentary))
+    }
   invisible(commentary)
 }
 
 #' @export
 #' @rdname koan
-capping_verse <- function(collection = NULL, case = NULL)  {
+capping_verse <- function(collection = NULL, case = NULL, verbose = TRUE)  {
   if (!is.null(collection)) {
     .df <- collection
     collection_name <- unique(.df$collection)
@@ -153,6 +156,8 @@ capping_verse <- function(collection = NULL, case = NULL)  {
     dplyr::filter(collection == collection_name, type == "capping_verse", case == case_num) %>%
     dplyr::pull(text)
 
-  if (!purrr::is_empty(capping_verse)) cat(paste0("Capping Verse: ", capping_verse))
+  if (!purrr::is_empty(capping_verse)) {
+    if (verbose) cat(paste0("Capping Verse: ", capping_verse))
+    }
   invisible(capping_verse)
 }

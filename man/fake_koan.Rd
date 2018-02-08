@@ -9,22 +9,24 @@
 \alias{fake_capping_verse}
 \title{Generate fake koans using a Markov model}
 \usage{
-fake_koan()
+fake_koan(verbose = TRUE)
 
-fake_title()
+fake_title(verbose = TRUE)
 
-fake_main_case(n_lines = sample(1:20, 1))
+fake_main_case(n_lines = sample(1:20, 1), verbose = TRUE)
 
-fake_commentary(n_lines = sample(1:20, 1))
+fake_commentary(n_lines = sample(1:20, 1), verbose = TRUE)
 
-fake_capping_verse(n_lines = sample(3:6, 1))
+fake_capping_verse(n_lines = sample(3:6, 1), verbose = TRUE)
 }
 \arguments{
+\item{verbose}{logical. Should koan be printed to console?}
+
 \item{n_lines}{The amount of lines to create. Default randomly samples a
 number.}
 }
 \value{
-Prints a koan (or part of it) and invisibly returns a \code{tbl}
+verboses a koan (or part of it) and invisibly returns a \code{tbl}
   containing the text.
 }
 \description{

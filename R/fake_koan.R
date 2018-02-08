@@ -4,8 +4,9 @@
 #'
 #' @param n_lines The amount of lines to create. Default randomly samples a
 #' number.
+#' @param verbose logical. Should koan be printed to console?
 #'
-#' @return Prints a koan (or part of it) and invisibly returns a \code{tbl}
+#' @return verboses a koan (or part of it) and invisibly returns a \code{tbl}
 #'   containing the text.
 #' @export
 #'
@@ -13,14 +14,14 @@
 #' fake_koan()
 #' @rdname fake_koan
 #' @name Fake Koans
-fake_koan <- function() {
-  title <- fake_title()
-  cat("\n\nMain Case: \n")
-  main_case <- fake_main_case()
-  cat("\n\nCommentary: \n")
-  commentary <- fake_commentary()
-  cat("\n\nCapping verse: \n")
-  capping_verse <- fake_capping_verse()
+fake_koan <- function(verbose = TRUE) {
+  title <- fake_title(verbose = verbose)
+  if (verbose) cat("\n\nMain Case: \n")
+  main_case <- fake_main_case(verbose = verbose)
+  if (verbose) cat("\n\nCommentary: \n")
+  commentary <- fake_commentary(verbose = verbose)
+  if (verbose) cat("\n\nCapping verse: \n")
+  capping_verse <- fake_capping_verse(verbose = verbose)
 
   koan_df <- tibble::tibble(
     title = title$title,
@@ -40,7 +41,7 @@ fake_koan <- function() {
 
 #' @export
 #' @rdname fake_koan
-fake_title <- function() {
+fake_title <- function(verbose = TRUE) {
   titles <- collect_koans() %>%
     dplyr::filter(type == "title")
 
@@ -64,14 +65,14 @@ fake_title <- function() {
                   title = paste0("Case #", sample(1:100, 1), ": ", title)) %>%
     dplyr::select(id, title)
 
-  purrr::walk(lines$title, cat, "")
+  if (verbose) purrr::walk(lines$title, cat, "")
   invisible(lines)
 }
 
 
 #' @export
 #' @rdname fake_koan
-fake_main_case <- function(n_lines = sample(1:20, 1)) {
+fake_main_case <- function(n_lines = sample(1:20, 1), verbose = TRUE) {
   main_cases <- collect_koans() %>%
     dplyr::filter(type == "main_case")
 
@@ -95,13 +96,13 @@ fake_main_case <- function(n_lines = sample(1:20, 1)) {
       dplyr::select(id, main_case)) %>%
     dplyr::bind_rows()
 
-  purrr::walk(lines$main_case, cat, "")
+  if (verbose) purrr::walk(lines$main_case, cat, "")
   invisible(lines)
 }
 
 #' @export
 #' @rdname fake_koan
-fake_commentary <- function(n_lines = sample(1:20, 1)) {
+fake_commentary <- function(n_lines = sample(1:20, 1), verbose = TRUE) {
   commentaries <- collect_koans() %>%
     dplyr::filter(type == "commentary")
 
@@ -125,13 +126,13 @@ fake_commentary <- function(n_lines = sample(1:20, 1)) {
       dplyr::select(id, commentary)) %>%
     dplyr::bind_rows()
 
-  purrr::walk(lines$commentary, cat, "")
+  if (verbose) purrr::walk(lines$commentary, cat, "")
   invisible(lines)
 }
 
 #' @export
 #' @rdname fake_koan
-fake_capping_verse <- function(n_lines = sample(3:6, 1)) {
+fake_capping_verse <- function(n_lines = sample(3:6, 1), verbose = TRUE) {
   capping_verses <- collect_koans() %>%
     dplyr::filter(type == "capping_verse")
 
@@ -155,7 +156,7 @@ fake_capping_verse <- function(n_lines = sample(3:6, 1)) {
       dplyr::select(id, capping_verse)) %>%
     dplyr::bind_rows()
 
-  purrr::walk(lines$capping_verse, cat, "")
+  if (verbose) purrr::walk(lines$capping_verse, cat, "")
   invisible(lines)
 }
 
