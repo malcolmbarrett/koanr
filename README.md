@@ -7,10 +7,8 @@ koanr
 
 `koanr` is (mostly) a data package containing the text for several of the more important Zen koan texts: The Gateless Gate (`gateless_gate`), The Blue Cliff Record (`blue_cliff_record`), The Record of the Transmission of the Light(`record_of_light`), and The Book of Equanimity(`book_of_equanimity`). `koanr` also includes functions for sampling koans.
 
-Example
--------
-
 Quickly access a koan:
+----------------------
 
 ``` r
 library(koanr)
@@ -35,8 +33,10 @@ Then, all the useless knowledge you have diligently learned till now is thrown a
 
 Capping Verse: Has a dog the Buddha nature? This is a matter of life and death. If you wonder whether a dog has it or not, You certainly lose your body and life!
 
+Pick a random koan
+------------------
+
 ``` r
-#  or pick a random one.
 koan()
 ```
 
@@ -58,8 +58,10 @@ If you can give a "turning word" (a momentous word for awakening), you will see 
 
 Capping Verse: How is Ananda's question, compared to Kashapa's answer of heart. How many people have since then opened their eyes. Elder brother calls and younger brother answers--the family disgrace. This spring does not belong to Yin and Yang.
 
+Quickly bind all four collections
+---------------------------------
+
 ``` r
-#  quickly bind all four collections
 collect_koans()
 #> # A tibble: 819 x 4
 #>    collection         case type       text                                
