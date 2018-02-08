@@ -15,7 +15,8 @@ set.seed(50)
 ```
 
 [![Travis build status](https://travis-ci.org/malcolmbarrett/koanr.svg?branch=master)](https://travis-ci.org/malcolmbarrett/koanr)
-[![AppVeyor Build Status](https://ci.appveyor.com/malcolmbarrett/koanr)](https://ci.appveyor.com/api/projects/status/github//malcolmbarrett/koanr/?branch=master&svg=true)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/myfqx9fpr4fqcgom?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/koanr)
+
 
 # koanr
 

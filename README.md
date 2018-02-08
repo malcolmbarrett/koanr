@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/malcolmbarrett/koanr.svg?branch=master)](https://travis-ci.org/malcolmbarrett/koanr) [![AppVeyor Build Status](https://ci.appveyor.com/malcolmbarrett/koanr)](https://ci.appveyor.com/api/projects/status/github//malcolmbarrett/koanr/?branch=master&svg=true)
+[![Travis build status](https://travis-ci.org/malcolmbarrett/koanr.svg?branch=master)](https://travis-ci.org/malcolmbarrett/koanr) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/myfqx9fpr4fqcgom?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/koanr)
 
 koanr
 =====
@@ -33,10 +33,10 @@ Or generate a fake one:
 fake_koan()
 ```
 
-Case \#44: Suibi and the Memorial Service
+Case \#44: Kyôzan Points to the Kaatz
 
-Main Case: Nagyaarajuna said to him, Bashashita received, unseen, the SEAL. In that instant the boy what his master had preached about, the boy turned his head. The emperor pulled the straps of his Buddhist garment. In my heart there is a room with six windows. ORIGINAL MIND is naturally pure and unstained, IT is not stained or polluted.”
+Main Case: Bowing before Great Master Ba about it. After the national teacher remained silent for a while.” Know for yourself that, when you leave home to become a monk to found the new monastery called the Great I-san Monastery. One day Manura observed, “Here is the SELF prior to the abbot’s quarters and offered it to him. When Ungo went to train under Tozan, the latter asked, “Where do you come from?”
 
-Commentary: He was imputed by the other, have emerged in the habit of first trying to devise an idea of self; you will reach IT, and you need not be the JEWEL when we invariably use the word or taken a wayward step.”
+Commentary: So completely had he come to meditate feast idly on sounds, forms and has been said, “Restraining yourself later on is far harder to realize this, spiritual friends and teachers, through their ability to see me face to face?”
 
-Capping verse: Now tell me, how am I ever to communicate this principle to you? Today I have realized! Indeed a possessed word, He is deceiving the entire crowd. Do not think that some bit of IT as though blind.
+Capping verse: In the country village the peach blossoms did not know what to do. Sand in the community wish to hear? Again today I would like to hear them? Would you all like to add his own humble words which attempt to break open what is happening here.
