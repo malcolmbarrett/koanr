@@ -22,21 +22,23 @@ set.seed(50)
 
 `koanr` is (mostly) a data package containing the text for several of the more important Zen koan texts: The Gateless Gate (`gateless_gate`), The Blue Cliff Record (`blue_cliff_record`), The Record of the Transmission of the Light(`record_of_light`), and The Book of Equanimity(`book_of_equanimity`). `koanr` also includes functions for sampling koans.
 
-## Quickly access a koan:
+## Examples
 
-```{r koan, results='asis', message=FALSE}
+Quickly access a koan:
+
+```{r koan, message=FALSE}
 library(koanr)
 koan(collection = gateless_gate, case = 1)
 ```
 
-## Pick a random koan
+Pick a random koan:
 
-```{r koan_random, results='asis', message=FALSE}
+```{r koan_random, message=FALSE}
 koan()
 ```
 
 
-## Quickly bind all four collections
+Quickly bind all four collections:
 
 ```{r collect_all, message=FALSE}
 collect_koans()
