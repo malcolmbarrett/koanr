@@ -8,4 +8,4 @@ addons:
     packages:
       - python2.7
 install:
-- pip install markovify
+- sudo pip install markovify
