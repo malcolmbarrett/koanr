@@ -1,7 +1,7 @@
 Package: koanr
 Version: 0.0.0.9000
 Title: A Collection of Important Zen Texts
-Description: koanr is (mostly) a data package containing the text for several of the more important Zen koan texts: The Gateless Gate, The Blue Cliff Record, The Record of the Transmission of the Light, and The Book of Equanimity. koanr also includes functions for sampling (real) koans and generating (fake) koans.
+Description: koanr is (mostly) a data package containing the text for several of the more important Zen koan texts: The Gateless Gate, The Blue Cliff Record, The Record of the Transmission of the Light, and The Book of Equanimity. koanr also includes functions for sampling koans.
 Authors@R: person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", c("aut", "cre"))
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -13,8 +13,4 @@ Depends:
 Imports: 
     dplyr,
     tibble,
-    pdftools,
-    purrr,
-    stringr,
-    markovifyR,
-    tidyr
+    purrr

@@ -87,7 +87,17 @@ record_of_light <- list(denk_txt1, denk_txt2, denk_txt3[1:78]) %>% map_df(functi
       which() %>%
       pluck(1)
 
-    commentary <- commentary[seq_len(commentary_end - 1)] %>%
+    commentary <- commentary[seq_len(commentary_end - 1)]
+
+    likely_verse <- commentary %>% str_detect("\\s{7,}")
+    likely_end_line <- map_lgl(1:length(likely_verse), function(i) {
+      if (i == 1 || i == 2) return(FALSE)
+      (likely_verse[i - 1] && likely_verse[i - 2] && !likely_verse[i])
+    })
+
+    commentary <- ifelse(likely_end_line, paste(" \n ", commentary), commentary)
+
+    commentary <- commentary %>%
       paste(collapse = "") %>%
       str_replace_all("- ", "") %>%
       str_trim()
@@ -99,7 +109,7 @@ record_of_light <- list(denk_txt1, denk_txt2, denk_txt3[1:78]) %>% map_df(functi
       map_chr(function(.x) {
         intro <- .x[1]
         verse <- .x[-1] %>% keep(~.x != "")
-        paste(intro, "\n\n ", paste(verse, collapse = " \n "))
+        paste(intro, "\n \n ", paste(verse, collapse = " \n "))
       })
 
     tibble(collection = "Record of the Transmission of the Light", title, main_case, commentary, capping_verse) %>%
@@ -108,6 +118,29 @@ record_of_light <- list(denk_txt1, denk_txt2, denk_txt3[1:78]) %>% map_df(functi
       mutate(case = as.integer(case))
   })
 })
+likely_verse_main_case <- record_of_light$main_case %>%
+  str_split("[:blank:]{3,}") %>%
+  map(str_count, boundary("word")) %>%
+  map(`<`, 20)
+
+record_of_light$main_case <- record_of_light$main_case %>%
+  str_split("[:blank:]{3,}") %>%
+  map2(likely_verse_main_case, ~ifelse(.y, paste(.x, "VERSE"), .x)) %>%
+  map(paste, collapse = " \n \n ") %>%
+  str_replace_all("VERSE \n ", "")
+
+likely_verse_commentary <- record_of_light$commentary %>%
+  str_split("[:blank:]{3,}") %>%
+  map(str_count, boundary("word")) %>%
+  map(`<`, 20)
+
+record_of_light$commentary <- record_of_light$commentary %>%
+  str_split("[:blank:]{3,}") %>%
+  map2(likely_verse_commentary, ~ifelse(.y, paste(.x, "VERSE"), .x)) %>%
+  map(paste, collapse = " \n \n ") %>%
+  str_replace_all("VERSE \n ", "") %>%
+  str_replace_all("As \n \n a \n result \n of \n this \n you \n will \n not",
+                  "As a result of this you will not")
 
 record_of_light <- record_of_light %>%
   mutate_if(is.character, funs(str_replace_all(.," //.", "") %>%
@@ -126,12 +159,13 @@ record_of_light <- record_of_light %>%
                                  str_replace_all("Ä", "A") %>%
                                  str_replace_all("¨", "") %>%
                                  str_replace_all("- ", "") %>%
+                                 str_replace_all("\\*", "") %>%
                                  str_replace_all("\\s+\\;", ";") %>%
                                  str_replace_all("\\s+\\,", ",") %>%
                                  str_replace_all("\\s+\\.", ".") %>%
                                  str_replace_all("\\s+\\?", "?") %>%
-                                 str_replace_all("(?<!\\d)(([0-7]{1}[0-9]{0,1})|8{1}[0-6]{0,1})(?!\\d)", "") %>%
-                                 str_replace_all("\\s{3,}", " \n "))) %>%
+                                 str_replace_all("(?<!\\d)(([0-7]{1}[0-9]{0,1})|8{1}[0-6]{0,1})(?!\\d)", "")
+                               )) %>%
   tidyr::gather(key = type, value = text, title, main_case, commentary, capping_verse) %>%
   arrange(case)
 
@@ -193,7 +227,7 @@ gateless_gate <- gg_text %>%
     if (commentary_end == 1) comm_lines <- 1:3 else comm_lines <- seq_len(commentary_end - 1)
     if (any(str_detect(commentary, "understands what Baso"))) {
       capping_verse <- commentary[3:6] %>%
-        paste(collapse = " \n ") %>%
+        paste(collapse = " \n \n ") %>%
         str_replace_all("- ", "") %>%
         str_trim()
       commentary <- commentary[1:2] %>%
@@ -239,8 +273,8 @@ gateless_gate <- gg_text %>%
 
 
 gateless_gate <- gateless_gate %>%
-  mutate_if(is.character, funs(str_replace_all(., "\\s{4}", " \n ") %>%
-                               str_replace_all("\\s{3}", " \n "))) %>%
+  mutate(main_case = str_replace_all(main_case, "\\s{3,}", " \n \n "),
+         commentary = str_replace_all(commentary, "\\s{3,}", " \n \n ")) %>%
   tidyr::gather(key = type, value = text, title, main_case, commentary, capping_verse) %>%
   arrange(case)
 
@@ -285,13 +319,13 @@ blue_cliff_record <- bcr_cases %>% map_df(function(.x) {
   # if (any(commentary_index)) browser()
   # if (is_empty(end_parenthesis)) end_parenthesis <- FALSE
   # if (!end_parenthesis) commentary_index[(which(commentary_index) + 1)] <- TRUE
-  commentary <-  paste(main_case[commentary_index], collapse = " \n ")
+  commentary <-  paste(main_case[commentary_index], collapse = " \n \n ")
 
   #try to guess where paragraph breaks are
   main_case <- main_case[not_commentary_index] %>% `[`(. != "")
   word_count <- main_case %>% str_count(boundary("word"))
   end_of_paragraph <- word_count <= 10 & main_case != main_case[length(main_case)]
-  main_case[end_of_paragraph] <- paste(main_case[end_of_paragraph], "\n")
+  main_case[end_of_paragraph] <- paste(main_case[end_of_paragraph], "\n \n ")
   main_case <- paste(main_case, collapse = " ")
   tibble(collection = "Blue Cliff Record", title, main_case, commentary) %>%
     tidyr::separate(title, c("case", "title"), sep = "\\: ", extra = "merge")

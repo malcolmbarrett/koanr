@@ -1,3 +1,7 @@
+utils::globalVariables(c(".", "%>%", "case", "ditch", "id", "koan_collections", "n", "text", "type"))
+
+`%>%` <- dplyr::`%>%`
+
 #' Sample a koan
 #'
 #' @param collection a \code{data.frame}, the koan collection to sample from.
@@ -160,4 +164,26 @@ capping_verse <- function(collection = NULL, case = NULL, verbose = TRUE)  {
     if (verbose) cat(paste0("Capping Verse: ", capping_verse))
     }
   invisible(capping_verse)
+}
+
+data(blue_cliff_record, envir = environment())
+data(book_of_equanimity, envir = environment())
+data(gateless_gate, envir = environment())
+data(record_of_light, envir = environment())
+
+#' Bind koan collections together
+#'
+#' This is a convenience function that binds the koan data together into a
+#' single \code{tbl.}
+#'
+#' @return a \code{tbl.} containing all 4 koan collections
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#'
+#' collect_koans() %>% filter(type == "main_case")
+collect_koans <- function() {
+  dplyr::bind_rows(blue_cliff_record, book_of_equanimity,
+                   gateless_gate, record_of_light)
 }
