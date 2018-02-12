@@ -14,3 +14,5 @@ Imports:
     dplyr,
     tibble,
     purrr
+URL: https://github.com/malcolmbarrett/koanr
+BugReports: https://github.com/malcolmbarrett/koanr/issues
