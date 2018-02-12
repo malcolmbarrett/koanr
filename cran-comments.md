@@ -8,3 +8,4 @@
 0 errors | 0 warnings | 0 notes
 
 * This is a new release. 
+* This is a data package and will not likely require many future updates.
